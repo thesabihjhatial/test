@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LEO TECHNOLOGIES — We Build Legends</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&family=Space+Mono&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        :root{--g:#D4AF37;--bg:#050505;--w:#fff;--m:#777}
+        html{scroll-behavior:smooth}
+        body{background:var(--bg);color:var(--w);font-family:'Inter',sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+        ::-webkit-scrollbar{width:4px}
+        ::-webkit-scrollbar-thumb{background:var(--g);border-radius:10px}
+
+        /* PRELOADER */
+        #preloader{position:fixed;inset:0;background:#000;z-index:10000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px}
+        #preloader .bar{width:200px;height:2px;background:#111;border-radius:2px;overflow:hidden}
+        #preloader .bar-fill{width:0%;height:100%;background:var(--g);border-radius:2px}
+        #preloader span{font-family:'Syne',sans-serif;font-size:.8rem;letter-spacing:6px;text-transform:uppercase;color:var(--g)}
+
+        /* NAV */
+        nav{position:fixed;top:0;width:100%;padding:30px 6%;display:flex;justify-content:space-between;align-items:center;z-index:1000;mix-blend-mode:difference}
+        .logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;letter-spacing:3px}
+        .logo b{color:var(--g)}
+        .nav-r{display:flex;align-items:center;gap:40px}
+        .nav-r a{color:var(--w);text-decoration:none;font-size:.75rem;letter-spacing:2px;text-transform:uppercase;opacity:.5;transition:.3s}
+        .nav-r a:hover{opacity:1}
+        .nav-btn{border:1px solid var(--g);color:var(--g);padding:12px 30px;font-size:.7rem;letter-spacing:3px;text-transform:uppercase;text-decoration:none;transition:.4s}
+        .nav-btn:hover{background:var(--g);color:#000}
+
+        /* HERO */
+        .hero{height:100vh;display:flex;align-items:flex-end;padding:0 6% 10vh;position:relative;overflow:hidden}
+        .hero-bg{position:absolute;inset:0;overflow:hidden}
+        .hero-bg .orb{position:absolute;border-radius:50%;filter:blur(120px);opacity:.15}
+        .orb-1{width:600px;height:600px;background:var(--g);top:-20%;right:-10%}
+        .orb-2{width:400px;height:400px;background:#a08030;bottom:10%;left:-5%}
+        .hero-content{position:relative;z-index:2;width:100%}
+        .hero-tag{display:inline-flex;align-items:center;gap:10px;border:1px solid #222;padding:8px 20px;border-radius:50px;margin-bottom:40px;font-size:.7rem;letter-spacing:3px;text-transform:uppercase;color:var(--m)}
+        .hero-tag .dot{width:6px;height:6px;background:var(--g);border-radius:50%;animation:pulse 2s infinite}
+        @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+        .hero h1{font-family:'Syne',sans-serif;font-size:clamp(3.5rem,10vw,9rem);font-weight:800;line-height:.85;text-transform:uppercase;margin-bottom:40px}
+        .hero h1 .line{display:block;overflow:hidden}
+        .hero h1 .line span{display:inline-block}
+        .hero h1 .outline{-webkit-text-stroke:1.5px rgba(255,255,255,.15);color:transparent}
+        .hero h1 .gold{color:var(--g)}
+        .hero-bottom{display:flex;justify-content:space-between;align-items:flex-end}
+        .hero-desc{max-width:380px;font-size:.95rem;color:var(--m);line-height:1.6;font-weight:300}
+        .scroll-indicator{display:flex;flex-direction:column;align-items:center;gap:10px;font-size:.6rem;letter-spacing:3px;text-transform:uppercase;color:var(--m)}
+        .scroll-line{width:1px;height:60px;background:linear-gradient(to bottom,var(--g),transparent);animation:scrollDown 2s infinite}
+        @keyframes scrollDown{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+        /* MARQUEE */
+        .marquee{border-top:1px solid #1a1a1a;border-bottom:1px solid #1a1a1a;padding:25px 0;overflow:hidden;white-space:nowrap}
+        .marquee-track{display:inline-flex;animation:scroll 25s linear infinite}
+        .marquee-track span{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:700;text-transform:uppercase;letter-spacing:4px;margin:0 60px;opacity:.3}
+        .marquee-track .sep{color:var(--g);opacity:1;font-size:1rem}
+        @keyframes scroll{to{transform:translateX(-50%)}}
+
+        /* BENTO */
+        .bento{padding:120px 6%}
+        .sec-top{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:60px;padding-bottom:30px;border-bottom:1px solid #1a1a1a}
+        .sec-label{font-family:'Space Mono',monospace;font-size:.65rem;letter-spacing:4px;text-transform:uppercase;color:var(--g);margin-bottom:10px}
+        .sec-title{font-family:'Syne',sans-serif;font-size:3.5rem;font-weight:800;line-height:1}
+        .sec-count{font-family:'Space Mono',monospace;font-size:.7rem;color:var(--m);letter-spacing:2px}
+        .bento-grid{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:minmax(280px,auto);gap:16px}
+        .b{background:#0c0c0c;border:1px solid #161616;border-radius:24px;padding:40px;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;transition:.5s cubic-bezier(.23,1,.32,1)}
+        .b:hover{border-color:var(--g);background:#0f0f0f;transform:translateY(-4px)}
+        .b::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--g),transparent);opacity:0;transition:.5s}
+        .b:hover::before{opacity:.6}
+        .b1{grid-column:span 7;grid-row:span 2}
+        .b2{grid-column:span 5}
+        .b3{grid-column:span 5}
+        .b4{grid-column:span 4}
+        .b5{grid-column:span 4}
+        .b6{grid-column:span 4}
+        .b-num{font-family:'Space Mono',monospace;font-size:.65rem;color:var(--g);letter-spacing:2px}
+        .b-title{font-family:'Syne',sans-serif;font-size:2rem;font-weight:700;margin:20px 0 15px;line-height:1.1}
+        .b-desc{color:var(--m);font-size:.85rem;line-height:1.7;max-width:400px}
+        .b-visual{position:absolute;right:-10px;bottom:-10px;opacity:.04;font-size:10rem;font-family:'Syne',sans-serif;font-weight:800}
+        .b-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;padding-top:20px}
+        .b-tags span{padding:6px 14px;border:1px solid #222;border-radius:50px;font-size:.65rem;letter-spacing:1px;color:var(--m)}
+
+        /* STATS */
+        .stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid #1a1a1a;border-bottom:1px solid #1a1a1a}
+        .stat{padding:60px 6%;text-align:center;border-right:1px solid #1a1a1a;transition:.4s}
+        .stat:last-child{border:none}
+        .stat:hover{background:#0a0a0a}
+        .stat h3{font-family:'Syne',sans-serif;font-size:3.5rem;font-weight:800;color:var(--g)}
+        .stat p{font-size:.65rem;letter-spacing:3px;text-transform:uppercase;color:var(--m);margin-top:10px}
+
+        /* PROCESS */
+        .process{padding:120px 6%}
+        .process-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+        .step{padding:50px 40px;border:1px solid #1a1a1a;margin:-1px;transition:.5s}
+        .step:hover{background:#0a0a0a;border-color:var(--g)}
+        .step-num{font-family:'Space Mono',monospace;font-size:2.5rem;color:var(--g);font-weight:700;margin-bottom:30px}
+        .step h4{font-family:'Syne',sans-serif;font-size:1.2rem;margin-bottom:15px}
+        .step p{color:var(--m);font-size:.85rem;line-height:1.7}
+
+        /* CTA */
+        .cta{padding:200px 6%;text-align:center;position:relative}
+        .cta-label{font-family:'Space Mono',monospace;font-size:.65rem;letter-spacing:4px;color:var(--g);text-transform:uppercase;margin-bottom:30px}
+        .cta h2{font-family:'Syne',sans-serif;font-size:clamp(2.5rem,7vw,6rem);font-weight:800;text-transform:uppercase;margin-bottom:50px;line-height:.9}
+        .cta-button{display:inline-block;padding:25px 80px;background:var(--g);color:#000;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;letter-spacing:4px;text-transform:uppercase;text-decoration:none;transition:.4s;position:relative;overflow:hidden}
+        .cta-button:hover{box-shadow:0 0 60px rgba(212,175,55,.3);transform:scale(1.02)}
+
+        /* FOOTER */
+        footer{padding:80px 6% 40px;border-top:1px solid #1a1a1a}
+        .foot-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:80px}
+        .foot-brand{font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;margin-bottom:15px}
+        .foot-brand b{color:var(--g)}
+        .foot-tagline{color:var(--m);font-size:.85rem;max-width:280px;line-height:1.6}
+        .foot-col h5{font-size:.65rem;letter-spacing:3px;text-transform:uppercase;color:var(--g);margin-bottom:20px}
+        .foot-col ul{list-style:none}
+        .foot-col li{margin-bottom:12px;font-size:.8rem;color:var(--m);transition:.3s;cursor:pointer}
+        .foot-col li:hover{color:var(--w)}
+        .foot-bottom{display:flex;justify-content:space-between;padding-top:30px;border-top:1px solid #111;font-size:.65rem;color:#444;letter-spacing:2px;text-transform:uppercase}
+
+        @media(max-width:900px){
+            .bento-grid{grid-template-columns:1fr}
+            .b1,.b2,.b3,.b4,.b5,.b6{grid-column:span 1;grid-row:auto}
+            .process-grid{grid-template-columns:1fr 1fr}
+            .stats{grid-template-columns:1fr 1fr}
+            .foot-top{grid-template-columns:1fr 1fr}
+            .nav-r a{display:none}
+            .hero h1{font-size:3.5rem}
+        }
+    </style>
+</head>
+<body>
+    <div id="preloader">
+        <span>Leo Technologies</span>
+        <div class="bar"><div class="bar-fill"></div></div>
+    </div>
+
+    <nav>
+        <div class="logo">LEO<b>.</b></div>
+        <div class="nav-r">
+            <a href="#work">Work</a>
+            <a href="#process">Method</a>
+            <a href="#contact">Contact</a>
+            <a href="#" class="nav-btn">Let's Talk</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-bg">
+            <div class="orb orb-1"></div>
+            <div class="orb orb-2"></div>
+        </div>
+        <div class="hero-content">
+            <div class="hero-tag"><span class="dot"></span> Available for Q2 2026</div>
+            <h1>
+                <span class="line"><span>We Build</span></span>
+                <span class="line"><span class="gold">Digital</span></span>
+                <span class="line"><span class="outline">Legends.</span></span>
+            </h1>
+            <div class="hero-bottom">
+                <p class="hero-desc">Leo Technologies is an elite brand architecture & software engineering agency. We forge digital identities that dominate industries.</p>
+                <div class="scroll-indicator">
+                    <div class="scroll-line"></div>
+                    Scroll
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="marquee">
+        <div class="marquee-track">
+            <span>Brand Strategy</span><span class="sep">◆</span>
+            <span>Web Development</span><span class="sep">◆</span>
+            <span>UI/UX Design</span><span class="sep">◆</span>
+            <span>Software Engineering</span><span class="sep">◆</span>
+            <span>Digital Identity</span><span class="sep">◆</span>
+            <span>Brand Strategy</span><span class="sep">◆</span>
+            <span>Web Development</span><span class="sep">◆</span>
+            <span>UI/UX Design</span><span class="sep">◆</span>
+            <span>Software Engineering</span><span class="sep">◆</span>
+            <span>Digital Identity</span><span class="sep">◆</span>
+        </div>
+    </div>
+
+    <section id="work" class="bento">
+        <div class="sec-top">
+            <div>
+                <div class="sec-label">What We Do</div>
+                <h2 class="sec-title">Our Expertise</h2>
+            </div>
+            <div class="sec-count">(06) Services</div>
+        </div>
+        <div class="bento-grid">
+            <div class="b b1">
+                <div>
+                    <span class="b-num">01</span>
+                    <h3 class="b-title">Brand<br>Architecture</h3>
+                    <p class="b-desc">We don't just design logos — we engineer entire visual ecosystems. From naming to motion systems, every touchpoint is intentional.</p>
+                </div>
+                <div class="b-tags">
+                    <span>Visual Identity</span><span>Naming</span><span>Art Direction</span><span>Motion Design</span>
+                </div>
+                <div class="b-visual">B</div>
+            </div>
+            <div class="b b2">
+                <div>
+                    <span class="b-num">02</span>
+                    <h3 class="b-title">Web<br>Platforms</h3>
+                    <p class="b-desc">High-performance web applications built for scale, speed, and conversion.</p>
+                </div>
+                <div class="b-visual">W</div>
+            </div>
+            <div class="b b3">
+                <div>
+                    <span class="b-num">03</span>
+                    <h3 class="b-title">Mobile<br>Engineering</h3>
+                    <p class="b-desc">Native and cross-platform mobile experiences with surgical precision.</p>
+                </div>
+                <div class="b-visual">M</div>
+            </div>
+            <div class="b b4">
+                <span class="b-num">04</span>
+                <h3 class="b-title">UI/UX</h3>
+                <p class="b-desc">Interfaces that convert.</p>
+                <div class="b-visual">U</div>
+            </div>
+            <div class="b b5">
+                <span class="b-num">05</span>
+                <h3 class="b-title">Growth</h3>
+                <p class="b-desc">Data-driven scaling.</p>
+                <div class="b-visual">G</div>
+            </div>
+            <div class="b b6">
+                <span class="b-num">06</span>
+                <h3 class="b-title">DevOps</h3>
+                <p class="b-desc">Cloud-native infrastructure.</p>
+                <div class="b-visual">D</div>
+            </div>
+        </div>
+    </section>
+
+    <div class="stats">
+        <div class="stat"><h3 class="counter" data-target="127">0</h3><p>Projects Shipped</p></div>
+        <div class="stat"><h3 class="counter" data-target="40">0</h3><p>Global Clients</p></div>
+        <div class="stat"><h3 class="counter" data-target="99">0</h3><p>Performance Score</p></div>
+        <div class="stat"><h3 class="counter" data-target="15">0</h3><p>Awards Won</p></div>
+    </div>
+
+    <section id="process" class="process">
+        <div class="sec-top">
+            <div>
+                <div class="sec-label">How We Work</div>
+                <h2 class="sec-title">Our Process</h2>
+            </div>
+            <div class="sec-count">(04) Phases</div>
+        </div>
+        <div class="process-grid">
+            <div class="step"><div class="step-num">01</div><h4>Discovery</h4><p>Deep immersion into your brand, market, and competition. We uncover every insight before writing a single line of code.</p></div>
+            <div class="step"><div class="step-num">02</div><h4>Strategy</h4><p>Architecture blueprints, user flows, and technical specifications. Nothing is left to chance.</p></div>
+            <div class="step"><div class="step-num">03</div><h4>Execution</h4><p>Pixel-perfect design meets performance-first engineering. Every sprint is a step toward perfection.</p></div>
+            <div class="step"><div class="step-num">04</div><h4>Launch</h4><p>Deployment, monitoring, and iteration. We don't disappear after launch — we optimize.</p></div>
+        </div>
+    </section>
+
+    <section id="contact" class="cta">
+        <div class="cta-label">Ready to start?</div>
+        <h2>Let's Build<br>Something<br><span style="color:var(--g)">Legendary.</span></h2>
+        <a href="#" class="cta-button">Start a Project</a>
+    </section>
+
+    <footer>
+        <div class="foot-top">
+            <div>
+                <div class="foot-brand">LEO<b>.</b></div>
+                <p class="foot-tagline">An elite digital agency specializing in brand architecture and software engineering.</p>
+            </div>
+            <div class="foot-col"><h5>Services</h5><ul><li>Branding</li><li>Web Dev</li><li>Mobile</li><li>UI/UX</li></ul></div>
+            <div class="foot-col"><h5>Company</h5><ul><li>About</li><li>Careers</li><li>Blog</li><li>Contact</li></ul></div>
+            <div class="foot-col"><h5>Social</h5><ul><li>Twitter / X</li><li>LinkedIn</li><li>Dribbble</li><li>GitHub</li></ul></div>
+        </div>
+        <div class="foot-bottom">
+            <span>© 2026 Leo Technologies</span>
+            <span id="clock"></span>
+        </div>
+    </footer>
+
+    <script>
+    lucide.createIcons();
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Preloader
+    const tl0 = gsap.timeline({onComplete:()=>{
+        gsap.to('#preloader',{yPercent:-100,duration:.8,ease:'power4.inOut',onComplete:()=>document.getElementById('preloader').remove()});
+        animateHero();
+    }});
+    tl0.to('.bar-fill',{width:'100%',duration:1.8,ease:'power2.inOut'});
+
+    // Hero stagger
+    function animateHero(){
+        gsap.from('.hero-tag',{opacity:0,y:20,duration:.8,ease:'power3.out'});
+        gsap.from('.hero h1 .line span',{yPercent:120,skewY:5,stagger:.15,duration:1.2,ease:'power4.out',delay:.2});
+        gsap.from('.hero-desc',{opacity:0,y:30,duration:1,delay:.8,ease:'power3.out'});
+        gsap.from('.scroll-indicator',{opacity:0,duration:1,delay:1.2});
+    }
+
+    // Marquee duplicate for seamless
+    const mt=document.querySelector('.marquee-track');
+    mt.innerHTML+=mt.innerHTML;
+
+    // Bento stagger
+    gsap.from('.b',{scrollTrigger:{trigger:'.bento-grid',start:'top 85%'},opacity:0,y:60,scale:.95,stagger:.08,duration:1,ease:'power3.out'});
+
+    // Stats counter
+    document.querySelectorAll('.counter').forEach(el=>{
+        gsap.to(el,{scrollTrigger:{trigger:el,start:'top 90%'},innerHTML:el.dataset.target,duration:2,snap:{innerHTML:1},ease:'power2.out'});
+    });
+
+    // Process stagger
+    gsap.from('.step',{scrollTrigger:{trigger:'.process-grid',start:'top 80%'},opacity:0,y:40,stagger:.12,duration:1,ease:'power3.out'});
+
+    // CTA
+    gsap.from('.cta h2',{scrollTrigger:{trigger:'.cta',start:'top 70%'},opacity:0,y:80,duration:1.2,ease:'power4.out'});
+    gsap.from('.cta-button',{scrollTrigger:{trigger:'.cta',start:'top 60%'},opacity:0,scale:.8,duration:.8,ease:'back.out(1.7)',delay:.3});
+
+    // Stats hover
+    document.querySelectorAll('.stat').forEach(s=>s.addEventListener('mouseenter',()=>gsap.to(s.querySelector('h3'),{scale:1.1,duration:.3})));
+    document.querySelectorAll('.stat').forEach(s=>s.addEventListener('mouseleave',()=>gsap.to(s.querySelector('h3'),{scale:1,duration:.3})));
+
+    // Clock
+    setInterval(()=>{document.getElementById('clock').textContent=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit',second:'2-digit'})},1000);
+
+    // Orb parallax
+    document.addEventListener('mousemove',e=>{
+        const x=(e.clientX/innerWidth-.5)*40, y=(e.clientY/innerHeight-.5)*40;
+        gsap.to('.orb-1',{x:x,y:y,duration:1.5,ease:'power2.out'});
+        gsap.to('.orb-2',{x:-x*.7,y:-y*.7,duration:1.8,ease:'power2.out'});
+    });
+    </script>
+</body>
+</html>
